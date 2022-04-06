@@ -18,10 +18,18 @@ contract CrowdSource {
         string desc;
         uint256 goal;
         uint256 raised;
+        uint256 endDate;
         bool closed;
     }
 
-    mapping(address => Campaign) public campaigns; //get campaign detaild by address
+    Campaign[] campaigns;
+
+    event CampaignCreated(
+        address campOwner,
+        string title,
+        uint256 goal,
+        uint256 endDate
+    );
 
     constructor(address _manager) {
         manager = _manager;
@@ -37,10 +45,11 @@ contract CrowdSource {
         camp.title = _title;
         camp.desc = _desc;
         camp.goal = _goal;
+        camp.endDate = block.timestamp + (3600 * 7);
         camp.closed = false;
-        campaigns[msg.sender] = camp;
+        campaigns.push(camp);
 
-        //emit event here
+        emit CampaignCreated(camp.campaignOwner, _title, _goal, camp.endDate);
         return true;
     }
 
