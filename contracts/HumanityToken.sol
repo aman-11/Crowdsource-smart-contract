@@ -63,7 +63,7 @@ contract HumanityToken is ERC20Interface {
     }
 
     //transfer token
-    function transfer(address recipient, uint256 tokens)
+    function    (address recipient, uint256 tokens)
         public
         override
         returns (bool)
