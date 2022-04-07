@@ -8,7 +8,7 @@ pragma solidity ^0.8.0;
 contract CrowdSource is HumanityToken {
     address public manager;
     uint256 public campCount = 1;
-    uint tokenPrice = 0.5 ether;
+    uint256 tokenPrice = 0.5 ether;
 
     struct Donor {
         address payable donorAddress;
@@ -71,7 +71,7 @@ contract CrowdSource is HumanityToken {
         camp.campaignOwner = payable(msg.sender);
         camp.title = _title;
         camp.campId = campCount;
-        camp.goal = _goal* 10 ** 18;
+        camp.goal = _goal * 10**18;
         camp.endDate = block.timestamp + (3600 * 7);
         camp.closed = false;
         campaigns.push(camp);
@@ -94,13 +94,13 @@ contract CrowdSource is HumanityToken {
     }
 
     function Donate(uint256 _campId)
-        payable
         public
+        payable
         isNotDestroyed
         returns (bool)
-    {   
+    {
         require(msg.value < msg.sender.balance);
-        require(msg.value>0);
+        require(msg.value > 0);
         require(campaigns[_campId - 1].closed != true);
 
         campaigns[_campId - 1].campaignOwner.transfer(msg.value);
@@ -110,8 +110,8 @@ contract CrowdSource is HumanityToken {
             campaigns[_campId - 1].closed = true;
         }
 
-        uint tokens = msg.value/tokenPrice;
-        balances[msg.sender] +=  tokens;
+        uint256 tokens = msg.value / tokenPrice;
+        balances[msg.sender] += tokens;
         balances[founder] -= tokens;
 
         emit Donated(
